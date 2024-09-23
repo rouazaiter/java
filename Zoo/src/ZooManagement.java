@@ -1,29 +1,40 @@
 import java.util.Scanner;
 
 public class ZooManagement {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        // Entrée de l'utilisateur pour le nom et le nombre de cages du zoo
         System.out.print("Entrez le nom du zoo : ");
         String zooName = scanner.nextLine();
-        System.out.print("Entrez le nombre de cages : ");
-        int nbrCages;
+
+        int nbrCages = 0;
         while (true) {
-            try {
-                nbrCages = Integer.parseInt(scanner.nextLine());
-                if (nbrCages < 0) {
-                    System.out.print("Le nombre de cages doit être positif. Réessayez : ");
-                } else {
+            System.out.print("Entrez le nombre de cages (valeur positive) : ");
+            if (scanner.hasNextInt()) {
+                nbrCages = scanner.nextInt();
+                if (nbrCages > 0) {
                     break;
+                } else {
+                    System.out.println("Veuillez entrer un nombre positif.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.print("Veuillez entrer un nombre entier valide. Réessayez : ");
+            } else {
+                System.out.println("Veuillez entrer un nombre valide.");
+                scanner.next(); // Vider l'entrée incorrecte
             }
         }
 
-        // Affichage des informations
-        System.out.println(zooName + " comporte " + nbrCages + " cages");
+        // Création du zoo
+        Zoo myZoo = new Zoo(zooName, "Paris", nbrCages);
 
-        // Fermeture du scanner
-        scanner.close();
+        // Création d'un animal (lion)
+        Animal lion = new Animal("Felidae", "Lion", 5, true);
+
+        // Ajout de l'animal au zoo
+        myZoo.addAnimal(lion, 0);
+
+        // Affichage des informations du zoo
+        myZoo.displayInfo();
     }
 }
