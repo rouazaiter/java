@@ -1,40 +1,33 @@
-import java.util.Scanner;
-
 public class ZooManagement {
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        // Entrée de l'utilisateur pour le nom et le nombre de cages du zoo
-        System.out.print("Entrez le nom du zoo : ");
-        String zooName = scanner.nextLine();
-
-        int nbrCages = 0;
-        while (true) {
-            System.out.print("Entrez le nombre de cages (valeur positive) : ");
-            if (scanner.hasNextInt()) {
-                nbrCages = scanner.nextInt();
-                if (nbrCages > 0) {
-                    break;
-                } else {
-                    System.out.println("Veuillez entrer un nombre positif.");
-                }
-            } else {
-                System.out.println("Veuillez entrer un nombre valide.");
-                scanner.next(); // Vider l'entrée incorrecte
-            }
-        }
-
-        // Création du zoo
-        Zoo myZoo = new Zoo(zooName, "Paris", nbrCages);
-
-        // Création d'un animal (lion)
         Animal lion = new Animal("Felidae", "Lion", 5, true);
+        Animal tiger = new Animal("Felidae", "Tigre", 4, true);
+        Animal elephant = new Animal("Elephantidae", "Éléphant", 10, false);
+        Animal giraffe = new Animal("Giraffidae", "Girafe", 6, false);
 
-        // Ajout de l'animal au zoo
-        myZoo.addAnimal(lion, 0);
+        Zoo myZoo = new Zoo("Safari Park", "Nairobi");
 
-        // Affichage des informations du zoo
-        myZoo.displayInfo();
+        myZoo.addAnimal(lion);  // Ajout réussi
+        myZoo.addAnimal(tiger);  // Ajout réussi
+        myZoo.addAnimal(elephant);  // Ajout réussi
+        myZoo.addAnimal(lion);  // Échec : animal déjà présent
+
+
+        myZoo.displayAnimals();
+
+        System.out.println("Recherche de lion : " + myZoo.searchAnimal(lion));
+        System.out.println("Recherche de girafe : " + myZoo.searchAnimal(giraffe));
+
+        for (int i = 0; i < 23; i++) {
+            myZoo.addAnimal(new Animal("Test", "Animal" + i, 3, true));
+        }
+        System.out.println("Le zoo est-il plein ? " + myZoo.isZooFull());
+
+        myZoo.removeAnimal(tiger);
+        System.out.println("Après suppression du tigre :");
+        myZoo.displayAnimals();
+
+        Zoo anotherZoo = new Zoo("City Zoo", "New York");
+        System.out.println("Comparaison des zoos : Le zoo avec plus d'animaux est " + Zoo.comparerZoo(myZoo, anotherZoo));
     }
 }
